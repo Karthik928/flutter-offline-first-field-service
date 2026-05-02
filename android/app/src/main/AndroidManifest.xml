@@ -1,0 +1,126 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
+
+    <!-- Location -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- Foreground service (Android 14+) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_NOTIFICATION" />
+
+    <!-- Android 13+ notification runtime permission -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+
+    <!-- Network -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <!-- Optional (exact alarms & reschedule-after-reboot for *precise* scheduling) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:name="${applicationName}"
+        android:label="FieldService"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+    >
+
+        <activity
+            android:name="com.FieldServiceBioRemedies.FieldService_app.MainActivity"
+            android:exported="true"
+            android:networkSecurityConfig="@xml/network_security_config"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- FCM: default notification settings -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="high_importance_channel" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+
+        <!-- Flutter embedding marker -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
+        <!-- Google Maps key (keep if used) -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+
+        <!-- Native Trip Foreground Service -->
+        <service
+            android:name="com.FieldServiceBioRemedies.FieldService_app.native.TripForegroundService"
+            android:foregroundServiceType="location"
+            android:exported="false" />
+
+        <!-- Stop Trip Broadcast Receiver -->
+        <receiver
+            android:name="com.FieldServiceBioRemedies.FieldService_app.native.StopTripReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.FieldServiceBioRemedies.FieldService_app.STOP_TRIP" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Boot Receiver: Restores active trip after device reboot -->
+        <receiver
+            android:name="com.FieldServiceBioRemedies.FieldService_app.native.BootReceiver"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Wake Receiver: Triggered by alarm to check service health during Doze -->
+        <receiver
+            android:name="com.FieldServiceBioRemedies.FieldService_app.native.WakeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.FieldServiceBioRemedies.FieldService_app.WAKE_FOREGROUND_SERVICE" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+    <!-- Optional: package visibility queries -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT" />
+            <data android:mimeType="text/plain" />
+        </intent>
+        <intent>
+            <action android:name="android.settings.WIFI_SETTINGS" />
+        </intent>
+        <intent>
+            <action android:name="android.settings.WIRELESS_SETTINGS" />
+        </intent>
+        <intent>
+            <action android:name="android.settings.SETTINGS" />
+        </intent>
+    </queries>
+</manifest>

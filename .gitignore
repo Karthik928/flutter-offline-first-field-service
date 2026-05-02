@@ -1,0 +1,48 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+build/
+
+# Android secrets
+android/local.properties
+android/app/google-services.json
+android/.gradle
+*.jks
+*.keystore
+key.properties
+
+# iOS secrets
+ios/Pods/
+ios/Runner/GoogleService-Info.plist
+*.p8
+*.p12
+*.mobileprovision
+
+# Environment and secrets
+.env
+.env.local
+.env.production
+secrets.dart
+secrets.json
+api_keys.dart
+
+# IDE
+.idea/
+.vscode/
+*.DS_Store
+
+# Firebase — NEVER commit this
+lib/firebase_options.dart
+
+# Kotlin build error logs
+android/.kotlin/
+
+# JVM crash logs
+android/hs_err_pid*.log
+android/replay_pid*.log
+
+# Build output logs
+android/build_output.txt

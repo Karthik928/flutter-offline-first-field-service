@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:gravity="center_vertical"
+    android:background="@android:color/transparent">
+
+    <!-- Timer -->
+    <Chronometer
+        android:id="@+id/elapsed_chrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format="%s"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="#0D47A1"
+        android:fontFamily="monospace" />
+
+    <!-- Divider -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  •  "
+        android:textSize="13sp"
+        android:textColor="#666666" />
+
+    <!-- Distance -->
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0 km"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="#333333" />
+
+</LinearLayout>
